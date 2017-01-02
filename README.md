@@ -50,6 +50,5 @@ var value = if (x > y) { x } else { y };
 - [ ] Strings
 - [ ] Hashes
 - [ ] Interpolated strings
-- [ ] Hashes
 - [ ] Templating
 - [ ] A standart library
