@@ -22,11 +22,11 @@ var b = true;
 ```
 var add = fn(a, b) { a + b; };`
 
-let twice = fn(f, x) {
+var twice = fn(f, x) {
   return f(f(x));
 };
 
-let addTwo = fn(x) {
+var addTwo = fn(x) {
   return x + 2;
 };
 
