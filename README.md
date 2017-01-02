@@ -8,6 +8,16 @@ Perse is a small language, aimed at string processing and templating. It is curr
 - 64-bit Integer
 - Boolean
 
+```
+var a = 2;
+var b = true;
+```
+
+### Operators
+```
++, -, *, /, ==, !=, !
+```
+
 ### Higher order functions
 ```
 var add = fn(a, b) { a + b; };`
