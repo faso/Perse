@@ -1,0 +1,6 @@
+C:\Users\arta\Documents\lang2\TrashLang\lang\bin\Debug\lang.exe.config
+C:\Users\arta\Documents\lang2\TrashLang\lang\bin\Debug\lang.exe
+C:\Users\arta\Documents\lang2\TrashLang\lang\bin\Debug\lang.pdb
+C:\Users\arta\Documents\lang2\TrashLang\lang\obj\Debug\lang.csprojResolveAssemblyReference.cache
+C:\Users\arta\Documents\lang2\TrashLang\lang\obj\Debug\lang.exe
+C:\Users\arta\Documents\lang2\TrashLang\lang\obj\Debug\lang.pdb
