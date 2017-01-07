@@ -7,6 +7,7 @@ Perse is a small language, aimed at string processing and templating. It is curr
 ### Data types
 - 64-bit Integer
 - Boolean
+- String
 
 ```
 var a = 2;
