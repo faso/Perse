@@ -140,6 +140,9 @@ namespace lang.Lexing
                 case '>':
                     tok = new Token(TokenType.GREATERTHAN, ch);
                     break;
+                case '"':
+                    tok = new Token(TokenType.STRING, ReadString());
+                    break;
                 case '!':
                     if (PeekChar() == '=')
                     {
@@ -173,6 +176,19 @@ namespace lang.Lexing
 
             ReadChar();
             return tok;
+        }
+
+        private string ReadString()
+        {
+            var pos = position + 1;
+            while (true)
+            {
+                ReadChar();
+                if (ch == '"')
+                    break;
+            }
+
+            return input.Substring(pos, position - pos);
         }
 
         public List<Token> Lex()

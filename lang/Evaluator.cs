@@ -96,6 +96,8 @@ namespace Lang
 
                 return ApplyFunction(function, args);
             }
+            else if (node is StringLiteral)
+                return new LangString() { Value = (node as StringLiteral).Value };
 
             return null;
         }
@@ -179,6 +181,9 @@ namespace Lang
             if (left.Type() == ObjectType.INTEGER_OBJ && right.Type() == ObjectType.INTEGER_OBJ)
                 return EvalIntegerInfixExpression(oper, (left as LangInteger), (right as LangInteger));
 
+            if (left.Type() == ObjectType.STRING_OBJ && right.Type() == ObjectType.STRING_OBJ)
+                return EvalStringInfixExpression(oper, (left as LangString), (right as LangString));
+
             switch (oper)
             {
                 case "==":
@@ -190,6 +195,20 @@ namespace Lang
                         return new LangError($"Type mismatch: {left.Type()} {oper} {right.Type()}");
                     else
                         return new LangError($"Unknown operator: {left.Type()} {oper} {right.Type()}");
+            }
+        }
+
+        private ILangObject EvalStringInfixExpression(string oper, LangString left, LangString right)
+        {
+            var leftVal = left.Value;
+            var rightVal = right.Value;
+
+            switch (oper)
+            {
+                case "+":
+                    return new LangString() { Value = leftVal + rightVal };
+                default:
+                    return new LangError($"Unknown operator: {left.Type()} {oper} {right.Type()}");
             }
         }
 

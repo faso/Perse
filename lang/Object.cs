@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PrefixParseFn = System.Func<Lang.AST.IExpression>;
 
 namespace Lang.Objects
 {
@@ -14,7 +15,9 @@ namespace Lang.Objects
         NULL_OBJ,
         RETURN_VALUE_OBJ,
         ERROR_OBJ,
-        FUNCTION
+        FUNCTION,
+        BUILTIN_OBJ,
+        STRING_OBJ
     }
 
     public interface ILangObject
@@ -32,6 +35,17 @@ namespace Lang.Objects
 
         public ObjectType Type()
             => ObjectType.INTEGER_OBJ;
+    }
+
+    public class LangString : ILangObject
+    {
+        public string Value { get; set; }
+
+        public string Inspect()
+            => Value;
+
+        public ObjectType Type()
+            => ObjectType.STRING_OBJ;
     }
 
     public class LangBoolean : ILangObject
@@ -64,6 +78,17 @@ namespace Lang.Objects
         public ObjectType Type()
             => ObjectType.RETURN_VALUE_OBJ;
     }
+
+    //public class Builtin : ILangObject
+    //{
+    //    public Func<T,Tresult> Fn { get; set; }
+
+    //    public string Inspect()
+    //        => "builtin function";
+
+    //    public ObjectType Type()
+    //        => ObjectType.BUILTIN_OBJ;
+    //}
 
     public class LangError : ILangObject
     {
@@ -133,4 +158,6 @@ namespace Lang.Objects
         public ObjectType Type()
             => ObjectType.FUNCTION;
     }
+
+
 }
