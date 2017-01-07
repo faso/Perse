@@ -157,6 +157,22 @@ namespace Lang.AST
             => this.Token.Literal;
     }
 
+    public class StringLiteral : IExpression
+    {
+        public Token Token { get; set; }
+        public string Value { get; set; }
+
+        public void ExpressionNode() { }
+
+        public string TokenLiteral()
+        {
+            return this.Token.Literal;
+        }
+
+        public override string ToString()
+            => this.Token.Literal;
+    }
+
     public class PrefixExpression : IExpression
     {
         public Token Token { get; set; }

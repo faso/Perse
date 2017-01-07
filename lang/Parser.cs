@@ -83,6 +83,8 @@ namespace Lang.Parsing
             RegisterPrefix(TokenType.IF, ParseIfExpression);
             RegisterPrefix(TokenType.FUNCTION, ParseFunctionLiteral);
 
+            RegisterPrefix(TokenType.STRING, ParseStringLiteral);
+
             InfixParseFns = new Dictionary<TokenType, InfixParseFn>();
             RegisterInfix(TokenType.PLUS, ParseInfixExpression);
             RegisterInfix(TokenType.MINUS, ParseInfixExpression);
@@ -191,6 +193,11 @@ namespace Lang.Parsing
                 return null;
 
             return args;
+        }
+
+        public IExpression ParseStringLiteral()
+        {
+            return new StringLiteral() { Token = CurToken, Value = CurToken.Literal };
         }
 
         public IExpression ParseIfExpression()

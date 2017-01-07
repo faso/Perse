@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST.cs" />
+    <Compile Include="Builtins.cs" />
     <Compile Include="Evaluator.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="Object.cs" />

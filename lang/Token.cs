@@ -15,6 +15,7 @@ namespace lang.Lexing
         // Identifiers and literals
         IDENT,
         INT,
+        STRING,
 
         // Operators
         ASSIGN,
