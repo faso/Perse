@@ -12,6 +12,7 @@ Perse is a small language, aimed at string processing and templating. It is curr
 ```
 var a = 2;
 var b = true;
+var c = "myString";
 ```
 
 ### Operators
