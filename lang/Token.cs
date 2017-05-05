@@ -39,6 +39,8 @@ namespace lang.Lexing
         RPAREN,
         LBRACE,
         RBRACE,
+        LBRACKET,
+        RBRACKET,
 
         // Keywords
         FUNCTION,

@@ -44,7 +44,8 @@ namespace Lang.Parsing
             { TokenType.MINUS, Precedence.SUM },
             { TokenType.SLASH, Precedence.PRODUCT },
             { TokenType.ASTERISK, Precedence.PRODUCT },
-            { TokenType.LPAREN, Precedence.CALL }
+            { TokenType.LPAREN, Precedence.CALL },
+            { TokenType.LBRACKET, Precedence.INDEX }
         };
 
         public Precedence PeekPrecedence()
@@ -94,8 +95,10 @@ namespace Lang.Parsing
             RegisterInfix(TokenType.NOT_EQ, ParseInfixExpression);
             RegisterInfix(TokenType.LESSTHAN, ParseInfixExpression);
             RegisterInfix(TokenType.GREATERTHAN, ParseInfixExpression);
+            RegisterInfix(TokenType.LBRACKET, ParseIndexExpression);
 
             RegisterInfix(TokenType.LPAREN, ParseCallExpression);
+            RegisterPrefix(TokenType.LBRACKET, ParseArrayLiteral);
 
             PeekToken = Lexer.NextToken();
             NextToken();
@@ -166,7 +169,8 @@ namespace Lang.Parsing
                 Token = CurToken,
                 Function = function
             };
-            exp.Arguments = ParseCallArguments();
+            exp.Arguments = ParseExpressionList(TokenType.RPAREN);
+
             return exp;
         }
 
@@ -253,6 +257,43 @@ namespace Lang.Parsing
             lit.Body = ParseBlockStatement();
 
             return lit;
+        }
+
+        public IExpression ParseArrayLiteral()
+        {
+            var array = new ArrayLiteral() { Token = CurToken };
+
+            array.Elements = ParseExpressionList(TokenType.RBRACKET);
+
+            return array;
+        }
+
+        public List<IExpression> ParseExpressionList(TokenType end)
+        {
+            var list = new List<IExpression>();
+
+            if (PeekTokenIs(end))
+            {
+                NextToken();
+                return list;
+            }
+
+            NextToken();
+            list.Add(ParseExpression(Precedence.LOWEST));
+
+            while (PeekTokenIs(TokenType.COMMA))
+            {
+                NextToken();
+                NextToken();
+                list.Add(ParseExpression(Precedence.LOWEST));
+            }
+
+            if (!ExpectPeek(end))
+            {
+                return null;
+            }
+
+            return list;
         }
 
         public List<Identifier> ParseFunctionParameters()
@@ -391,6 +432,23 @@ namespace Lang.Parsing
             }
 
             return leftExp;
+        }
+
+        public IExpression ParseIndexExpression(IExpression left)
+        {
+            var exp = new IndexExpression()
+            {
+                Token = CurToken,
+                Left = left
+            };
+
+            NextToken();
+            exp.Index = ParseExpression(Precedence.LOWEST);
+
+            if (!ExpectPeek(TokenType.RBRACKET))
+                return null;
+
+            return exp;
         }
 
         public ReturnStatement ParseReturnStatement()

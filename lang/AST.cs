@@ -15,7 +15,8 @@ namespace Lang.AST
         SUM,         // +
         PRODUCT,     // *
         PREFIX,      // -var or !var
-        CALL         // func(cuck)
+        CALL,        // func(cuck)
+        INDEX        // a[index]
     }
 
     public interface INode
@@ -249,6 +250,19 @@ namespace Lang.AST
         }
     }
 
+    public class ArrayLiteral : IExpression
+    {
+        public Token Token { get; set; }
+        public List<IExpression> Elements { get; set; }
+
+        public void ExpressionNode() { }
+        public string TokenLiteral()
+            => this.Token.Literal;
+
+        public override string ToString() =>
+            String.Join(",", Elements.Select(o => o.ToString()));
+    }
+
     public class CallExpression : IExpression
     {
         public Token Token { get; set; }
@@ -264,5 +278,19 @@ namespace Lang.AST
             var param = String.Join(",", Arguments.Select(o => o.ToString()).ToList());
             return $"{Function.ToString()}({param})";
         }
+    }
+
+    public class IndexExpression : IExpression
+    {
+        public Token Token { get; set; }
+        public IExpression Left { get; set; }
+        public IExpression Index { get; set; }
+
+        public void ExpressionNode() { }
+        public string TokenLiteral()
+            => this.Token.Literal;
+
+        public override string ToString() =>
+            $"({Left.ToString()}[{Index.ToString()}]";
     }
 }

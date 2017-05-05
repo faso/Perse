@@ -10,14 +10,14 @@ namespace lang
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("\n   ___/-\\___");
-            Console.WriteLine("  |---------|");
-            Console.WriteLine("   | | | | |");
-            Console.WriteLine("   | | | | |");
-            Console.WriteLine("   | | | | |");
-            Console.WriteLine("   | | | | |");
-            Console.WriteLine("   |_______|\n");
-            Console.WriteLine("  TrashLang v0.02\n");
+            Console.WriteLine("\n     ___/-\\___");
+            Console.WriteLine("    |---------|");
+            Console.WriteLine("     | | | | |");
+            Console.WriteLine("     | | | | |");
+            Console.WriteLine("     | | | | |");
+            Console.WriteLine("     | | | | |");
+            Console.WriteLine("     |_______|\n");
+            Console.WriteLine("  TrashLang v0.03\n");
 
             REPL.Start();
 

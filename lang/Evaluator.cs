@@ -34,6 +34,17 @@ namespace Lang
 
                 return EvalPrefixExpression(n.Operator, right);
             }
+            else if (node is ArrayLiteral)
+            {
+                var n = (node as ArrayLiteral);
+                var elements = EvalExpressions(n.Elements, env);
+                if (elements.Count == 1 && IsError(elements[0]))
+                {
+                    return elements[0];
+                }
+
+                return new LangArray() { Elements = elements };
+            }
             else if (node is InfixExpression)
             {
                 var n = (node as InfixExpression);
@@ -83,6 +94,19 @@ namespace Lang
                     Env = env,
                     Body = n.Body
                 };
+            }
+            else if (node is IndexExpression)
+            {
+                var n = node as IndexExpression;
+                var left = Eval(n.Left, env);
+                if (IsError(left))
+                    return left;
+
+                var index = Eval(n.Index, env);
+                if (IsError(index))
+                    return index;
+
+                return EvalIndexExpression(left, index);
             }
             else if (node is CallExpression)
             {
@@ -165,6 +189,30 @@ namespace Lang
             }
 
             return result;
+        }
+
+        private ILangObject EvalIndexExpression(ILangObject left, ILangObject index)
+        {
+            if (left.Type() == ObjectType.ARRAY_OBJ && index.Type() == ObjectType.INTEGER_OBJ)
+            {
+                return EvalArrayIndexExpression(left, index);
+            }
+            else
+            {
+                return new LangError($"index operator not supported for {left.Type()}");
+            }
+        }
+
+        private ILangObject EvalArrayIndexExpression(ILangObject array, ILangObject index)
+        {
+            var arrayObject = array as LangArray;
+            var idx = (index as LangInteger).Value;
+            var max = arrayObject.Elements.Count - 1;
+
+            if (idx < 0 || idx > max)
+                return null;
+
+            return arrayObject.Elements.ElementAt(idx);
         }
 
         private ILangObject EvalBlockStatement(BlockStatement block, Objects.Environment env)

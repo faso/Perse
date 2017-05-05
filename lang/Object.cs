@@ -17,7 +17,8 @@ namespace Lang.Objects
         ERROR_OBJ,
         FUNCTION,
         BUILTIN_OBJ,
-        STRING_OBJ
+        STRING_OBJ,
+        ARRAY_OBJ
     }
 
     public interface ILangObject
@@ -28,7 +29,7 @@ namespace Lang.Objects
 
     public class LangInteger : ILangObject
     {
-        public long Value { get; set; }
+        public int Value { get; set; }
 
         public string Inspect()
             => Value.ToString();
@@ -46,6 +47,17 @@ namespace Lang.Objects
 
         public ObjectType Type()
             => ObjectType.STRING_OBJ;
+    }
+
+    public class LangArray : ILangObject
+    {
+        public List<ILangObject> Elements { get; set; }
+
+        public string Inspect()
+            => String.Join(",", Elements.Select(o => o.Inspect()));
+
+        public ObjectType Type()
+            => ObjectType.ARRAY_OBJ;
     }
 
     public class LangBoolean : ILangObject

@@ -143,6 +143,12 @@ namespace lang.Lexing
                 case '"':
                     tok = new Token(TokenType.STRING, ReadString());
                     break;
+                case '[':
+                    tok = new Token(TokenType.LBRACKET, ch);
+                    break;
+                case ']':
+                    tok = new Token(TokenType.RBRACKET, ch);
+                    break;
                 case '!':
                     if (PeekChar() == '=')
                     {
