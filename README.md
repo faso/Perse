@@ -58,7 +58,7 @@ var value = if (x > y) { x } else { y };
 ## Roadmap
 - [ ] stdout
 - [ ] stdin
-- [ ] Arrays
+- [x] Arrays
 - [ ] Loops
 - [x] Built-in functions
 - [x] Strings
