@@ -59,6 +59,7 @@ var value = if (x > y) { x } else { y };
 - [ ] stdin
 - [ ] Arrays
 - [ ] Loops
+- [x] Built-in functions
 - [x] Strings
 - [ ] Hashes
 - [ ] Interpolated strings
