@@ -104,14 +104,21 @@ namespace Lang
 
         private ILangObject ApplyFunction(ILangObject fn, List<ILangObject> args)
         {
-            if (!(fn is LangFunction))
-                return new LangError($"Not a function: {fn.Type()}");
+            if (fn is LangFunction)
+            {
+                var function = fn as LangFunction;
+                var extendedEnv = ExtendFunctionEnv(function, args);
+                var evaluated = Eval(function.Body, extendedEnv);
+                return UnwrapReturnValue(evaluated);
+            }
+            else if (fn is Builtin)
+            {
+                var function = fn as Builtin;
+                var boink = function.Fn.Invoke(args.ToArray());
+                return boink as ILangObject;
+            }
 
-            var function = fn as LangFunction;
-
-            var extendedEnv = ExtendFunctionEnv(function, args);
-            var evaluated = Eval(function.Body, extendedEnv);
-            return UnwrapReturnValue(evaluated);
+            return new LangError($"Not a function: {fn.Type()}");
         }
 
         private List<ILangObject> EvalExpressions(List<IExpression> exps, Objects.Environment env)
@@ -133,6 +140,9 @@ namespace Lang
         private ILangObject EvalIdentifier(Identifier node, Objects.Environment env)
         {
             var val = env.Get(node.Value);
+
+            if (val == null)
+                val = Builtins.BuiltinFunctions.Builtins[node.Value];
 
             if (val == null)
                 return new LangError($"Identifier not found: {node.Value}");

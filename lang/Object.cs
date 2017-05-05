@@ -79,16 +79,16 @@ namespace Lang.Objects
             => ObjectType.RETURN_VALUE_OBJ;
     }
 
-    //public class Builtin : ILangObject
-    //{
-    //    public Func<T,Tresult> Fn { get; set; }
+    public class Builtin : ILangObject
+    {
+        public Func<ILangObject[], ILangObject> Fn;
 
-    //    public string Inspect()
-    //        => "builtin function";
+        public string Inspect()
+            => "builtin function";
 
-    //    public ObjectType Type()
-    //        => ObjectType.BUILTIN_OBJ;
-    //}
+        public ObjectType Type()
+            => ObjectType.BUILTIN_OBJ;
+    }
 
     public class LangError : ILangObject
     {
