@@ -19,6 +19,9 @@ namespace Lang.REPL
                 Console.Write(">> ");
                 var s = Console.ReadLine();
 
+                if (s == "exit")
+                    return;
+
                 if(s.StartsWith("file"))
                 {
                     using (StreamReader sr = new StreamReader($"../../tests/{s.Split(' ')[1]}.txt"))

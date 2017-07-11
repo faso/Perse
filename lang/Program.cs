@@ -20,8 +20,6 @@ namespace lang
             Console.WriteLine("  TrashLang v0.03\n");
 
             REPL.Start();
-
-            Console.ReadKey(); 
         }
     }
 }

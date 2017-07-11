@@ -126,7 +126,7 @@ namespace Lang
             return null;
         }
 
-        private ILangObject ApplyFunction(ILangObject fn, List<ILangObject> args)
+        public ILangObject ApplyFunction(ILangObject fn, List<ILangObject> args)
         {
             if (fn is LangFunction)
             {
@@ -265,6 +265,8 @@ namespace Lang
             {
                 case "+":
                     return new LangString() { Value = leftVal + rightVal };
+                case "==":
+                    return BoolToLangBool(leftVal == rightVal);
                 default:
                     return new LangError($"Unknown operator: {left.Type()} {oper} {right.Type()}");
             }

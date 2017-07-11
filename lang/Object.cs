@@ -54,7 +54,7 @@ namespace Lang.Objects
         public List<ILangObject> Elements { get; set; }
 
         public string Inspect()
-            => String.Join(",", Elements.Select(o => o.Inspect()));
+            => $"{String.Join(",", Elements.Select(o => o.Inspect()))}\n";
 
         public ObjectType Type()
             => ObjectType.ARRAY_OBJ;
