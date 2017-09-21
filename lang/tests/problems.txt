@@ -1,0 +1,39 @@
+﻿var arr = [1,2,3,4];
+var arrTwo = [5,6,7,8];
+var nestedArr = [[[5],[6],[7]],[10],[[11], [12]]]
+
+puts("problem 1");
+puts(list.last(arr));
+puts("");
+
+puts("problem 2");
+var lastIndex = list.length(arr) - 1;
+puts(arr[lastIndex - 1]);
+puts("");
+
+puts("problem 3");
+var k = 1;
+puts(arr[k]);
+puts("");
+
+puts("problem 4");
+puts(list.length(arr));
+puts("");
+
+puts("problem 5");
+puts(list.reverse(arr));
+puts("");
+
+puts("problem 6");
+puts(arr == list.reverse(arr));
+puts("");
+
+puts("problem 7");
+var flatten = fn(arr, index) {
+	if (list.length(arr) == 1) {
+		return arr;
+	}
+	return list.concat(flatten(arr[index], 0), flatten(arr[index + 1], index + 1));
+}
+puts(flatten(nestedArr, 0));
+puts("");

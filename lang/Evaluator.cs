@@ -247,10 +247,14 @@ namespace Lang
             if (env.Get(loop.LoopVariable.ToString()) != null)
                 return new LangError("Loop variable identifier already in use");
 
+            int i = 0;
             foreach (var item in ((LangArray)target).Elements)
             {
+                if (loop.LoopIndex != null)
+                    env.Set(loop.LoopIndex.ToString(), new LangInteger() { Value = i });
                 env.Set(loop.LoopVariable.ToString(), item);
                 result = EvalBlockStatement(loop.Body, env);
+                i++;
             }
 
             return null;
@@ -263,6 +267,9 @@ namespace Lang
 
             if (left.Type() == ObjectType.STRING_OBJ && right.Type() == ObjectType.STRING_OBJ)
                 return EvalStringInfixExpression(oper, (left as LangString), (right as LangString));
+
+            if (left.Type() == ObjectType.ARRAY_OBJ && right.Type() == ObjectType.ARRAY_OBJ)
+                return EvalArrayInfixExpression(oper, (left as LangArray), (right as LangArray));
 
             switch (oper)
             {
@@ -289,6 +296,37 @@ namespace Lang
                     return new LangString() { Value = leftVal + rightVal };
                 case "==":
                     return BoolToLangBool(leftVal == rightVal);
+                default:
+                    return new LangError($"Unknown operator: {left.Type()} {oper} {right.Type()}");
+            }
+        }
+
+        private ILangObject EvalArrayInfixExpression(string oper, LangArray left, LangArray right)
+        {
+            var leftVal = left.Elements;
+            var rightVal = right.Elements;
+
+            switch (oper)
+            {
+                case "+":
+                    return new LangArray() { Elements = leftVal.Concat(rightVal).ToList() };
+                case "==":
+                    {
+                        bool res = true;
+                        int i = 0;
+                        foreach (var item in leftVal)
+                        {
+                            var eq = (LangBoolean)EvalInfixExpression("==", item, rightVal.ElementAt(i));
+                            if (eq.Value == false)
+                            {
+                                res = false;
+                                break;
+                            }
+                            i++;
+                        }
+
+                        return BoolToLangBool(res);
+                    }
                 default:
                     return new LangError($"Unknown operator: {left.Type()} {oper} {right.Type()}");
             }

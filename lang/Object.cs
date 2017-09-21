@@ -175,13 +175,14 @@ namespace Lang.Objects
     public class LangLoop : ILangObject
     {
         public Identifier LoopVariable { get; set; }
+        public Identifier LoopIndex { get; set; }
         public Identifier Target { get; set; }
         public BlockStatement Body { get; set; }
         public Environment Env { get; set; }
 
         public string Inspect()
         {
-            return $"for({LoopVariable.ToString()} in {Target.ToString()}) {{\n{Body.ToString()}\n}}";
+            return $"for({LoopVariable.ToString() + (LoopIndex != null ? "," + LoopIndex.ToString() : "")} in {Target.ToString()}) {{\n{Body.ToString()}\n}}";
         }
 
         public ObjectType Type()

@@ -269,6 +269,7 @@ namespace Lang.AST
     {
         public Token Token { get; set; }
         public Identifier LoopVariable { get; set; }
+        public Identifier LoopIndex { get; set; }
         public Identifier Target { get; set; }
         public BlockStatement Body { get; set; }
 
@@ -278,7 +279,7 @@ namespace Lang.AST
 
         public override string ToString()
         {
-            return $"for({LoopVariable.ToString()} in {Target.ToString()}) {{\n{Body.ToString()}\n}}";
+            return $"for({LoopVariable.ToString() + (LoopIndex != null ? "," + LoopIndex.ToString() : "")} in {Target.ToString()}) {{\n{Body.ToString()}\n}}";
         }
     }
 

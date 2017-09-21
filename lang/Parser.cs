@@ -287,6 +287,20 @@ namespace Lang.Parsing
             lit.LoopVariable = ident;
             NextToken();
 
+            if (CurTokenIs(TokenType.COMMA))
+            {
+                NextToken();
+                if (!CurTokenIs(TokenType.IDENT))
+                    return null;
+
+                lit.LoopIndex = new Identifier()
+                {
+                    Token = CurToken,
+                    Value = CurToken.Literal
+                };
+            }
+            NextToken();
+
             if (!CurTokenIs(TokenType.IN))
                 return null;
             NextToken();

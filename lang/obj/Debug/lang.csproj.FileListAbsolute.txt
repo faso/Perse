@@ -17,3 +17,9 @@ C:\Users\dev30\Documents\Memes\Perse\lang\obj\Debug\lang.csprojResolveAssemblyRe
 C:\Users\dev30\Documents\Memes\Perse\lang\obj\Debug\lang.exe
 C:\Users\dev30\Documents\Memes\Perse\lang\obj\Debug\lang.pdb
 C:\Users\dev30\Documents\Memes\Perse\lang\obj\Debug\lang.csproj.CoreCompileInputs.cache
+C:\Users\faso\Documents\langshit\Perse\lang\bin\Debug\lang.exe.config
+C:\Users\faso\Documents\langshit\Perse\lang\bin\Debug\lang.exe
+C:\Users\faso\Documents\langshit\Perse\lang\bin\Debug\lang.pdb
+C:\Users\faso\Documents\langshit\Perse\lang\obj\Debug\lang.csprojResolveAssemblyReference.cache
+C:\Users\faso\Documents\langshit\Perse\lang\obj\Debug\lang.exe
+C:\Users\faso\Documents\langshit\Perse\lang\obj\Debug\lang.pdb
