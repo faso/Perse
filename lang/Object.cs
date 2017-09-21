@@ -18,7 +18,8 @@ namespace Lang.Objects
         FUNCTION,
         BUILTIN_OBJ,
         STRING_OBJ,
-        ARRAY_OBJ
+        ARRAY_OBJ,
+        LOOP
     }
 
     public interface ILangObject
@@ -171,5 +172,19 @@ namespace Lang.Objects
             => ObjectType.FUNCTION;
     }
 
+    public class LangLoop : ILangObject
+    {
+        public Identifier LoopVariable { get; set; }
+        public Identifier Target { get; set; }
+        public BlockStatement Body { get; set; }
+        public Environment Env { get; set; }
 
+        public string Inspect()
+        {
+            return $"for({LoopVariable.ToString()} in {Target.ToString()}) {{\n{Body.ToString()}\n}}";
+        }
+
+        public ObjectType Type()
+            => ObjectType.FUNCTION;
+    }
 }

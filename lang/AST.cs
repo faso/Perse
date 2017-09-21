@@ -126,6 +126,21 @@ namespace Lang.AST
             => Value;
     }
 
+    public class Keyword : IExpression
+    {
+        public Token Token { get; set; }
+
+        public void ExpressionNode() { }
+
+        public string TokenLiteral()
+        {
+            return this.Token.Literal;
+        }
+
+        public override string ToString()
+            => this.Token.Literal;
+    }
+
     public class Boolean : IExpression
     {
         public Token Token { get; set; }
@@ -247,6 +262,23 @@ namespace Lang.AST
         {
             var param = String.Join(",", Parameters.Select(o => o.ToString()).ToList());
             return $"{TokenLiteral()}({param}) {Body.ToString()}";
+        }
+    }
+
+    public class LoopStatement : IExpression
+    {
+        public Token Token { get; set; }
+        public Identifier LoopVariable { get; set; }
+        public Identifier Target { get; set; }
+        public BlockStatement Body { get; set; }
+
+        public void ExpressionNode() { }
+        public string TokenLiteral()
+            => this.Token.Literal;
+
+        public override string ToString()
+        {
+            return $"for({LoopVariable.ToString()} in {Target.ToString()}) {{\n{Body.ToString()}\n}}";
         }
     }
 

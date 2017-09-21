@@ -24,6 +24,8 @@ namespace lang.Lexing
             { "else", TokenType.ELSE },
             { "return", TokenType.RETURN },
             { "while", TokenType.WHILE },
+            { "for", TokenType.FOR },
+            { "in", TokenType.IN }
         };
 
         private TokenType LookupIdentifier(string ident)
@@ -58,7 +60,7 @@ namespace lang.Lexing
         {
             int i = 0;
             int pos = position;
-            while (IsLetter(ch))
+            while (IsLetter(ch) || ch == '.')
             {
                 ReadChar();
                 i++;

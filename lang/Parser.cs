@@ -83,6 +83,7 @@ namespace Lang.Parsing
 
             RegisterPrefix(TokenType.IF, ParseIfExpression);
             RegisterPrefix(TokenType.FUNCTION, ParseFunctionLiteral);
+            RegisterPrefix(TokenType.FOR, ParseForLoopLiteral);
 
             RegisterPrefix(TokenType.STRING, ParseStringLiteral);
 
@@ -250,6 +251,54 @@ namespace Lang.Parsing
                 return null;
 
             lit.Parameters = ParseFunctionParameters();
+
+            if (!ExpectPeek(TokenType.LBRACE))
+                return null;
+
+            lit.Body = ParseBlockStatement();
+
+            return lit;
+        }
+
+        public IExpression ParseForLoopLiteral()
+        {
+            var lit = new LoopStatement()
+            {
+                Token = CurToken
+            };
+
+            if (!ExpectPeek(TokenType.LPAREN))
+                return null;
+
+            var identifiers = new List<Identifier>();
+            
+            if (PeekTokenIs(TokenType.RPAREN))
+            {
+                NextToken();
+                return null;
+            }
+            NextToken();
+
+            var ident = new Identifier()
+            {
+                Token = CurToken,
+                Value = CurToken.Literal
+            };
+            lit.LoopVariable = ident;
+            NextToken();
+
+            if (!CurTokenIs(TokenType.IN))
+                return null;
+            NextToken();
+
+            lit.Target = new Identifier()
+            {
+                Token = CurToken,
+                Value = CurToken.Literal
+            };
+            
+            if (!ExpectPeek(TokenType.RPAREN))
+                return null;
 
             if (!ExpectPeek(TokenType.LBRACE))
                 return null;

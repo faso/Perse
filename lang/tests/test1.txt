@@ -1,6 +1,3 @@
-﻿var newAdder = fn(x) {
-  fn(y) { x + y };
-};
-
-var addTwo = newAdder(2);
-addTwo(2);
+﻿var arr = ["L", "D", "L", "L", "L", "D", "D", "D"];
+var f = 0;
+for (i in arr) { puts(i); }

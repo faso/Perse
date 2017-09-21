@@ -61,6 +61,8 @@ namespace Lang
             }
             else if (node is BlockStatement)
                 return EvalBlockStatement((node as BlockStatement), env);
+            else if (node is LoopStatement)
+                return EvalLoopStatement((node as LoopStatement), env);
             else if (node is IfExpression)
                 return EvalIfExpression((node as IfExpression), env);
             else if (node is ReturnStatement)
@@ -232,6 +234,26 @@ namespace Lang
             }
 
             return result;
+        }
+
+        private ILangObject EvalLoopStatement(LoopStatement loop, Objects.Environment env)
+        {
+            ILangObject result = new LangNull();
+
+            var target = env.Get(loop.Target.ToString());
+            if (target.Type() != ObjectType.ARRAY_OBJ)
+                return new LangError("Can't iterate over an object that is not an array (for now)");
+
+            if (env.Get(loop.LoopVariable.ToString()) != null)
+                return new LangError("Loop variable identifier already in use");
+
+            foreach (var item in ((LangArray)target).Elements)
+            {
+                env.Set(loop.LoopVariable.ToString(), item);
+                result = EvalBlockStatement(loop.Body, env);
+            }
+
+            return null;
         }
 
         private ILangObject EvalInfixExpression(string oper, ILangObject left, ILangObject right)

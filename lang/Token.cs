@@ -50,6 +50,8 @@ namespace lang.Lexing
         IF,
         ELSE,
         RETURN,
+        FOR,
+        IN,
 
         // Loops
         WHILE

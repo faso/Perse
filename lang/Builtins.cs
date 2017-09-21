@@ -37,6 +37,16 @@ namespace Lang.Builtins
             return (o[0] as LangArray).Elements.First();
         };
 
+        public static BuiltIntFunction Puts = o =>
+        {
+            if (o.Length != 1)
+                return new LangError($"Wrong number of arguments. Expected 1, got {o.Length}");
+
+            Console.WriteLine(o[0].Inspect());
+
+            return new LangNull();
+        };
+
         public static BuiltIntFunction Last = o =>
         {
             if (o.Length != 1)
@@ -103,7 +113,8 @@ namespace Lang.Builtins
             { "concat", new Builtin() { Fn = Concat } },
             { "first", new Builtin() { Fn = First } },
             { "last", new Builtin() { Fn = Last } },
-            { "part", new Builtin() { Fn = Part } }
+            { "puts", new Builtin() { Fn = Puts } },
+            { "list.part", new Builtin() { Fn = Part } }
         };
     }
 }
