@@ -56,13 +56,13 @@ var value = if (x > y) { x } else { y };
 ```
 
 ## Roadmap
-- [ ] stdout
-- [ ] stdin
+- [x] stdout
+- [x] stdin
 - [x] Arrays
-- [ ] Loops
+- [x] Loops
 - [x] Built-in functions
 - [x] Strings
 - [ ] Hashes
 - [ ] Interpolated strings
 - [ ] Templating
-- [ ] A standart library
+- [ ] A standard library
