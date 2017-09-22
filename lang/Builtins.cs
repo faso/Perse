@@ -184,14 +184,14 @@ namespace Lang.Builtins
 
         public static Dictionary<string, ILangObject> Builtins = new Dictionary<string, ILangObject>()
         {
-            { "length", new Builtin() { Fn = Len } },
-            { "concat", new Builtin() { Fn = Concat } },
+            { "str.length", new Builtin() { Fn = Len } },
+            { "str.concat", new Builtin() { Fn = Concat } },
             { "list.first", new Builtin() { Fn = First } },
             { "list.last", new Builtin() { Fn = Last } },
             { "list.length", new Builtin() { Fn = ListLength } },
             { "list.reverse", new Builtin() { Fn = ListReverse } },
             { "list.concat", new Builtin() { Fn = ListConcat } },
-            { "list.push", new Builtin() { Fn = ListConcat } },
+            { "list.push", new Builtin() { Fn = ListPush } },
             { "puts", new Builtin() { Fn = Puts } },
             { "list.part", new Builtin() { Fn = Part } },
             { "read", new Builtin() { Fn = Read } },
