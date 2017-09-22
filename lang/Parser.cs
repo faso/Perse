@@ -452,6 +452,13 @@ namespace Lang.Parsing
                     return ParseVarStatement();
                 case TokenType.RETURN:
                     return ParseReturnStatement();
+                case TokenType.IDENT:
+                    {
+                        if (PeekTokenIs(TokenType.ASSIGN))
+                            return ParseAssignStatement();
+                        else
+                            return ParseExpressionStatement();
+                    }
                 default:
                     return ParseExpressionStatement();
             }
@@ -540,6 +547,34 @@ namespace Lang.Parsing
 
             if (!ExpectPeek(TokenType.IDENT))
                 return null;
+
+            stmt.Name = new Identifier()
+            {
+                Token = CurToken,
+                Value = CurToken.Literal
+            };
+
+            if (!ExpectPeek(TokenType.ASSIGN))
+            {
+                return null;
+            }
+
+            NextToken();
+
+            stmt.Value = ParseExpression(Precedence.LOWEST);
+
+            if (PeekTokenIs(TokenType.SEMICOLON))
+            {
+                NextToken();
+            }
+
+            return stmt;
+        }
+
+        public AssignStatement ParseAssignStatement()
+        {
+            var stmt = new AssignStatement();
+            stmt.Token = CurToken;
 
             stmt.Name = new Identifier()
             {

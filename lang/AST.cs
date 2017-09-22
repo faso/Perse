@@ -71,6 +71,26 @@ namespace Lang.AST
         }
     }
 
+    public class AssignStatement : IStatement
+    {
+        public Token Token { get; set; }
+        public Identifier Name { get; set; }
+        public IExpression Value { get; set; }
+
+        public void StatementNode() { }
+        public string TokenLiteral()
+            => this.Token.Literal;
+
+        public override string ToString()
+        {
+            var res = $"{Name.ToString()} = ";
+            if (Value != null)
+                res += Value.ToString();
+            res += ";";
+            return res;
+        }
+    }
+
     public class ReturnStatement : IStatement
     {
         public Token Token { get; set; }

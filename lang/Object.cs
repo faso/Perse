@@ -154,6 +154,17 @@ namespace Lang.Objects
         {
             Store[name] = val;
         }
+
+        public void SetWithOuter(string name, ILangObject val)
+        {
+            if(Store.ContainsKey(name))
+                Store[name] = val;
+            else
+            {
+                if (Outer != null)
+                    Outer.SetWithOuter(name, val);
+            }
+        }
     }
 
     public class LangFunction : ILangObject

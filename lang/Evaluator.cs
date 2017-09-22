@@ -83,6 +83,15 @@ namespace Lang
 
                 env.Set((node as VarStatement).Name.Value, val);
             }
+            else if (node is AssignStatement)
+            {
+                var val = Eval((node as AssignStatement).Value, env);
+
+                if (IsError(val))
+                    return val;
+
+                env.Set((node as AssignStatement).Name.Value, val);
+            }
             else if (node is Identifier)
             {
                 return EvalIdentifier((node as Identifier), env);
