@@ -53,5 +53,43 @@ namespace Lang.REPL
                 }
             }
         }
+
+        public static string ExecuteAsString(string source)
+        {
+            using (StringWriter stringWriter = new StringWriter())
+            {
+                Console.SetOut(stringWriter);
+
+                var s = source;
+                var env = new Objects.Environment();
+
+                var lexer = new Lexer()
+                {
+                    input = s,
+                    position = 0,
+                    readPosition = 0
+                };
+
+                var AST = new Parser(lexer);
+                var ev = new Evaluator();
+                var res = AST.ParseProgram();
+                if (AST.Errors.Count > 0)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Fucking up there, buddy! Parser errors: ");
+                    foreach (var e in AST.Errors)
+                        Console.WriteLine($"\t{e}\n");
+                }
+                else
+                {
+                    var evl = ev.Eval(res, env);
+                    if (evl != null)
+                        Console.WriteLine(evl.Inspect());
+                }
+
+                return stringWriter.ToString();
+            }
+        }
+
     }
 }
