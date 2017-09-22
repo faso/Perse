@@ -436,6 +436,10 @@ namespace Lang
 
         private bool IsTruthy(ILangObject obj)
         {
+            if (obj is LangInteger)
+                if ((obj as LangInteger).Value == 0)
+                    return false;
+
             if (obj == TRUE)
                 return true;
             else if (obj == FALSE || obj == NULL)

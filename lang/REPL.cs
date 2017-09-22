@@ -16,40 +16,47 @@ namespace Lang.REPL
             var env = new Objects.Environment();
             while (true)
             {
-                Console.Write(">> ");
-                var s = Console.ReadLine();
-
-                if (s == "exit")
-                    return;
-
-                if(s.StartsWith("file"))
+                try
                 {
-                    using (StreamReader sr = new StreamReader($"../../tests/{s.Split(' ')[1]}.txt"))
-                        s = sr.ReadToEnd();
+                    Console.Write(">> ");
+                    var s = Console.ReadLine();
+
+                    if (s == "exit")
+                        return;
+
+                    if (s.StartsWith("file"))
+                    {
+                        using (StreamReader sr = new StreamReader($"../../tests/{s.Split(' ')[1]}.txt"))
+                            s = sr.ReadToEnd();
+                    }
+
+                    var lexer = new Lexer()
+                    {
+                        input = s,
+                        position = 0,
+                        readPosition = 0
+                    };
+
+                    var AST = new Parser(lexer);
+                    var ev = new Evaluator();
+                    var res = AST.ParseProgram();
+                    if (AST.Errors.Count > 0)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Fucking up there, buddy! Parser errors: ");
+                        foreach (var e in AST.Errors)
+                            Console.WriteLine($"\t{e}\n");
+                    }
+                    else
+                    {
+                        var evl = ev.Eval(res, env);
+                        if (evl != null)
+                            Console.WriteLine(evl.Inspect());
+                    }
                 }
-
-                var lexer = new Lexer()
+                catch
                 {
-                    input = s,
-                    position = 0,
-                    readPosition = 0
-                };
-
-                var AST = new Parser(lexer);
-                var ev = new Evaluator();
-                var res = AST.ParseProgram();
-                if (AST.Errors.Count > 0)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Fucking up there, buddy! Parser errors: ");
-                    foreach (var e in AST.Errors)
-                        Console.WriteLine($"\t{e}\n");
-                }
-                else
-                {
-                    var evl = ev.Eval(res, env);
-                    if (evl != null)
-                        Console.WriteLine(evl.Inspect());
+                    Console.WriteLine("Fucking up there, buddy!");
                 }
             }
         }
@@ -58,33 +65,40 @@ namespace Lang.REPL
         {
             using (StringWriter stringWriter = new StringWriter())
             {
-                Console.SetOut(stringWriter);
-
-                var s = source;
-                var env = new Objects.Environment();
-
-                var lexer = new Lexer()
+                try
                 {
-                    input = s,
-                    position = 0,
-                    readPosition = 0
-                };
+                    Console.SetOut(stringWriter);
 
-                var AST = new Parser(lexer);
-                var ev = new Evaluator();
-                var res = AST.ParseProgram();
-                if (AST.Errors.Count > 0)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Fucking up there, buddy! Parser errors: ");
-                    foreach (var e in AST.Errors)
-                        Console.WriteLine($"\t{e}\n");
+                    var s = source;
+                    var env = new Objects.Environment();
+
+                    var lexer = new Lexer()
+                    {
+                        input = s,
+                        position = 0,
+                        readPosition = 0
+                    };
+
+                    var AST = new Parser(lexer);
+                    var ev = new Evaluator();
+                    var res = AST.ParseProgram();
+                    if (AST.Errors.Count > 0)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Fucking up there, buddy! Parser errors: ");
+                        foreach (var e in AST.Errors)
+                            Console.WriteLine($"\t{e}\n");
+                    }
+                    else
+                    {
+                        var evl = ev.Eval(res, env);
+                        if (evl != null)
+                            Console.WriteLine(evl.Inspect());
+                    }
                 }
-                else
+                catch
                 {
-                    var evl = ev.Eval(res, env);
-                    if (evl != null)
-                        Console.WriteLine(evl.Inspect());
+                    return "Fucking up there, buddy!";
                 }
 
                 return stringWriter.ToString();
