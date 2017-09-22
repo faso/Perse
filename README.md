@@ -100,7 +100,7 @@ var arr = [1,2,3];
 var arrTwo = [4,5,6];
 var testStr = "hey";
 
-str.length(testStr);            // 7
+str.length(testStr);            // 3
 str.concat(testStr, " there!"); // "hey there!"
 list.first(arr);                // 1
 list.length(arr);               // 3
