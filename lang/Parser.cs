@@ -298,8 +298,8 @@ namespace Lang.Parsing
                     Token = CurToken,
                     Value = CurToken.Literal
                 };
+                NextToken();
             }
-            NextToken();
 
             if (!CurTokenIs(TokenType.IN))
                 return null;

@@ -1,9 +1,6 @@
-﻿if (1)
+﻿var arr = [1,2,3];
+for (item, i in arr)
 {
-puts("ay");
-}
-
-if (0)
-{
-puts("yo");
+    puts(item);
+	puts(i);
 }
